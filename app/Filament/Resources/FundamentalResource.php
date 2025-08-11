@@ -1,0 +1,81 @@
+<?php
+
+namespace App\Filament\Resources;
+
+use App\Filament\Resources\FundamentalResource\Pages;
+use App\Filament\Resources\FundamentalResource\RelationManagers;
+use App\Models\Fundamental;
+use Filament\Forms;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+
+class FundamentalResource extends Resource
+{
+    protected static ?string $model = Fundamental::class;
+    protected static ?string $navigationGroup = 'Institutional & Profile';
+
+    protected static ?string $navigationIcon = 'heroicon-o-light-bulb';
+
+
+    public static function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Forms\Components\Textarea::make('vision')
+                    ->required()
+                    ->columnSpanFull(),
+                Forms\Components\Textarea::make('mission')
+                    ->required()
+                    ->columnSpanFull(),
+                Forms\Components\FileUpload::make('image')
+                    ->image(),
+            ]);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+            ])
+            ->filters([
+                //
+            ])
+            ->actions([
+                Tables\Actions\EditAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
+            ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListFundamentals::route('/'),
+            'create' => Pages\CreateFundamental::route('/create'),
+            'edit' => Pages\EditFundamental::route('/{record}/edit'),
+        ];
+    }
+}

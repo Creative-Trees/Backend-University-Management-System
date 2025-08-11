@@ -72,6 +72,32 @@
 
 ---
 
+## 🏗️ System Architecture
+
+```mermaid
+graph TD
+    A[Frontend Interface] -->|User Requests| B[Laravel Router]
+    B -->|Authentication| C[Filament Admin Panel]
+    C -->|CRUD Operations| D[Eloquent Models]
+    D -->|Data Processing| E[SQLite Database]
+
+    F[Student Management] --> D
+    G[Faculty Management] --> D
+    H[Content Management] --> D
+    I[Facility Management] --> D
+
+    E -->|Data Retrieval| D
+    D -->|Response Data| C
+    C -->|UI Components| J[Admin Dashboard]
+
+    K[Migration System] -->|Schema Updates| E
+    L[Seeder System] -->|Sample Data| E
+
+    style C fill:#f9f,stroke:#333,stroke-width:2px
+    style E fill:#bbf,stroke:#333,stroke-width:2px
+    style D fill:#bfb,stroke:#333,stroke-width:2px
+```
+
 ## 📊 Database Schema
 
 Sistem ini mengelola **14 entitas utama** dengan struktur database yang komprehensif:
@@ -184,8 +210,8 @@ Pastikan sistem Anda memiliki requirements berikut:
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/username/Backend-University.git
-cd Backend-University
+git clone https://github.com/Creative-Trees/Backend-University-Management-System.git
+cd Backend-University-Management-System
 
 # 2. Install PHP dependencies
 composer install
@@ -330,7 +356,81 @@ echo "✅ All Filament Resources generated successfully!"
 
 </details>
 
-### 📋 Resource Generation Status
+## 🔄 Data Flow Architecture
+
+```mermaid
+graph LR
+    A[Admin User] -->|Login| B[Authentication]
+    B -->|Access Granted| C[Filament Dashboard]
+
+    C -->|Manage Students| D[Student Resource]
+    C -->|Manage Faculty| E[Lecture Resource]
+    C -->|Manage Content| F[News/Announcement Resource]
+    C -->|Manage Facilities| G[Facility Resource]
+
+    D -->|CRUD Operations| H[(SQLite Database)]
+    E -->|CRUD Operations| H
+    F -->|CRUD Operations| H
+    G -->|CRUD Operations| H
+
+    H -->|Data Validation| I[Model Layer]
+    I -->|Business Logic| J[Response]
+    J -->|UI Update| C
+
+    style B fill:#ff9999,stroke:#333,stroke-width:2px
+    style C fill:#99ccff,stroke:#333,stroke-width:2px
+    style H fill:#99ff99,stroke:#333,stroke-width:2px
+```
+
+## 🏢 Entity Relationship Overview
+
+```mermaid
+erDiagram
+    USERS ||--o{ STUDENTS : manages
+    USERS ||--o{ LECTURES : manages
+    USERS ||--o{ NEWS : creates
+    USERS ||--o{ ANNOUNCEMENTS : publishes
+
+    STUDENTS {
+        id integer
+        name string
+        student_id string
+        program string
+        status enum
+        contact_info json
+    }
+
+    LECTURES {
+        id integer
+        name string
+        employee_id string
+        department string
+        research_interests json
+        publications json
+    }
+
+    NEWS {
+        id integer
+        title string
+        content text
+        category string
+        status enum
+        published_at timestamp
+    }
+
+    FACILITIES {
+        id integer
+        name string
+        type string
+        location string
+        capacity integer
+        status enum
+    }
+```
+
+---
+
+## 📋 Resource Generation Status
 
 | 📋 Model       | 🔧 Resource            | 📄 Pages                 | ✅ Status |
 | -------------- | ---------------------- | ------------------------ | --------- |
@@ -369,7 +469,7 @@ Setelah instalasi berhasil, akses aplikasi melalui URL berikut:
 | **Email**    | `admin@university.com` |
 | **Password** | `password123`          |
 
-> ⚠️ **Security Note**: Ubah kredensial default setelah login pertama!
+> ⚠️ **Security Note**: Change default credentials after first login!
 
 ---
 
@@ -603,8 +703,8 @@ Backend-University/
 1. **Upload files ke server**
 ```bash
 # Via Git
-git clone https://github.com/username/Backend-University.git
-cd Backend-University
+git clone https://github.com/Creative-Trees/Backend-University-Management-System.git
+cd Backend-University-Management-System
 ````
 
 2. **Install dependencies**
@@ -734,8 +834,8 @@ Contributions are welcome! Please follow these steps:
 
 ### 🐛 Issues & Bug Reports
 
--   **GitHub Issues**: [Report a bug](https://github.com/username/Backend-University/issues)
--   **Documentation**: [Wiki](https://github.com/username/Backend-University/wiki)
+-   **GitHub Issues**: [Report a bug](https://github.com/Creative-Trees/Backend-University-Management-System/issues)
+-   **Documentation**: [Wiki](https://github.com/Creative-Trees/Backend-University-Management-System/wiki)
 
 ### 📧 Contact Information
 
@@ -768,13 +868,15 @@ copies or substantial portions of the Software.
 
 ---
 
+---
+
 <div align="center">
 
 **⭐ Star this repository if you find it helpful!**
 
-[![Stars](https://img.shields.io/github/stars/username/Backend-University?style=social)](https://github.com/username/Backend-University/stargazers)
-[![Forks](https://img.shields.io/github/forks/username/Backend-University?style=social)](https://github.com/username/Backend-University/network/members)
-[![Issues](https://img.shields.io/github/issues/username/Backend-University)](https://github.com/username/Backend-University/issues)
+[![Stars](https://img.shields.io/github/stars/Creative-Trees/Backend-University-Management-System?style=social)](https://github.com/Creative-Trees/Backend-University-Management-System/stargazers)
+[![Forks](https://img.shields.io/github/forks/Creative-Trees/Backend-University-Management-System?style=social)](https://github.com/Creative-Trees/Backend-University-Management-System/network/members)
+[![Issues](https://img.shields.io/github/issues/Creative-Trees/Backend-University-Management-System)](https://github.com/Creative-Trees/Backend-University-Management-System/issues)
 
 </div>
 ```
